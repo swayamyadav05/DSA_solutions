@@ -46,23 +46,77 @@ def reverse_Array(n: int, nums: list[int]) -> list[int]:
 # OR
 
 
-def swap(a, b):
-    temp = a
-    a = b
-    b = temp
-    return
+def reverseArray(n: int, nums: list[int]) -> list[int]:
+    left = 0
+    right = n - 1
+
+    while left < right:
+        # Swap elements at left and right indices in-place
+        nums[left], nums[right] = nums[right], nums[left]
+        # Move the pointers towards each other
+        left += 1
+        right -= 1
+
+    return nums
 
 
-def reverseArray(i: int, nums: list[int]) -> list[int]:
-    n = len(nums)
-    if i >= len(nums) // 2:
-        return
+# OR
+
+
+def reverseArray(n: int, nums: list[int]) -> list[int]:
+    # Base case: If the array is empty or has only one element, return it.
+    if n <= 1:
+        return nums
     else:
-        swap(nums[i], nums[n - i - 1])
-        new_nums = reverseArray(i + 1, nums)
-    return new_nums
+        # Recursively reverse the sublist from index 1 to n-1.
+        reversed_sublist = reverseArray(n - 1, nums[1:])
+        # Append the first element of the original array to the reversed sublist.
+        reversed_sublist.append(nums[0])
+        return reversed_sublist
+
+
+# OR
+
+
+def swap(arr: list[int], left: int, right: int) -> None:
+    """
+    Helper function to swap elements in the array.
+    """
+    if left < right:
+        # Swap elements at left and right indices
+        arr[left], arr[right] = arr[right], arr[left]
+        # Recursively call swap on the remaining sublist
+        swap(arr, left + 1, right - 1)
+
+
+def reverseArray(n: int, nums: list[int]) -> list[int]:
+    # Call the helper function to swap elements recursively
+    swap(nums, 0, n - 1)
+    return nums
+
+
+# OR
+
+
+def reverseArray(n: int, nums: list[int]) -> list[int]:
+    def reverseArrayHelper(i: int) -> None:
+        """
+        Helper function to reverse the array recursively using swapping.
+        """
+        if i >= n // 2:
+            return
+        else:
+            # Swap elements at i and (n - i - 1) indices
+            nums[i], nums[n - i - 1] = nums[n - i - 1], nums[i]
+            # Recursively call on the next index
+            reverseArrayHelper(i + 1)
+
+    # Call the helper function with initial index 0
+    reverseArrayHelper(0)
+    return nums
 
 
 if __name__ == "__main__":
+    n = 5
     nums = [1, 5, 2, 1, 6]
-    print(reverseArray(0, nums))
+    print(reverseArray(n, nums))
